@@ -98,7 +98,7 @@ public class CoreDefaultServicesExtension implements ServiceExtension {
 
     @Provider
     public OkHttpClient okHttpClient(ServiceExtensionContext context) {
-        return OkHttpClientFactory.create(configuration, okHttpEventListener, context.getMonitor());
+        return OkHttpClientFactory.create(configuration, okHttpEventListener, context.getMonitor(), context.getParticipantId());
     }
 
     @Provider

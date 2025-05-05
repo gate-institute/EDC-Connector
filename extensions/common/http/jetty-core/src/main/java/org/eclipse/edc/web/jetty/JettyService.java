@@ -17,6 +17,7 @@
 
 package org.eclipse.edc.web.jetty;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Servlet;
 import org.eclipse.edc.spi.EdcException;
 import org.eclipse.edc.spi.monitor.Monitor;
@@ -31,6 +32,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlet.Source;
@@ -39,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,10 +82,13 @@ public class JettyService implements WebServer {
     public void start() {
         try {
             server = new Server();
+            var logfilter = new FilterHolder(new LoggingHttpFilter(monitor, configuration.loggingFilterPattern()));
             var portMappingsDescription = portMappingRegistry.getAll().stream()
                     .peek(mapping -> {
                         server.addConnector(createConnector(mapping));
-                        handlers.put(mapping.path(), createHandler(mapping));
+                        var h = createHandler(mapping);
+                        h.addFilter(logfilter, "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
+                        handlers.put(mapping.path(), h);
                     })
                     .map(PortMapping::toString)
                     .collect(joining(", "));
@@ -112,6 +118,7 @@ public class JettyService implements WebServer {
         servletHolder.setName("EDC-" + contextName);
         servletHolder.setServlet(servlet);
         servletHolder.setInitOrder(1);
+        servletHolder.setAsyncSupported(true);
 
         var actualPath = portMappingRegistry.getAll().stream()
                 .filter(pm -> Objects.equals(contextName, pm.name()))

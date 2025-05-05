@@ -50,7 +50,7 @@ class OkHttpClientFactoryTest {
     void shouldPrintLogIfHttpsNotEnforced() {
         var configuration = mock(OkHttpClientConfiguration.class);
 
-        var okHttpClient = OkHttpClientFactory.create(configuration, eventListener, monitor)
+        var okHttpClient = OkHttpClientFactory.create(configuration, eventListener, monitor, "test")
                 .newBuilder().addInterceptor(dummySuccessfulResponse())
                 .build();
 
@@ -64,7 +64,7 @@ class OkHttpClientFactoryTest {
         var configuration = mock(OkHttpClientConfiguration.class);
         when(configuration.isEnforceHttps()).thenReturn(true);
 
-        var okHttpClient = OkHttpClientFactory.create(configuration, eventListener, monitor)
+        var okHttpClient = OkHttpClientFactory.create(configuration, eventListener, monitor, "test")
                 .newBuilder().addInterceptor(dummySuccessfulResponse())
                 .build();
 
@@ -79,7 +79,7 @@ class OkHttpClientFactoryTest {
         when(configuration.getSendBufferSize()).thenReturn(4096);
         when(configuration.getReceiveBufferSize()).thenReturn(4096);
 
-        var okHttpClient = OkHttpClientFactory.create(configuration, eventListener, monitor)
+        var okHttpClient = OkHttpClientFactory.create(configuration, eventListener, monitor, "test")
                 .newBuilder()
                 .build();
 

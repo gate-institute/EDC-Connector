@@ -36,6 +36,8 @@ public class OkHttpClientConfiguration {
     private int sendBufferSize;
     @Setting(description = "OkHttpClient: receive buffer size, in bytes", defaultValue = DEFAULT_OK_HTTP_CLIENT_RECEIVE_BUFFER_SIZE + "", key = "edc.http.client.receive.buffer.size", min = 1)
     private int receiveBufferSize;
+    @Setting(description = "OkHttpClient: regex pattern to match against request paths when logging", defaultValue = ".*", key = "edc.http.client.logging.filter.pattern")
+    private String loggingFilterPattern;
 
     public OkHttpClientConfiguration() {
     }
@@ -58,6 +60,10 @@ public class OkHttpClientConfiguration {
 
     public int getReceiveBufferSize() {
         return receiveBufferSize;
+    }
+
+    public String getLoggingFilterPattern() {
+        return loggingFilterPattern;
     }
 
     public Builder toBuilder() {
