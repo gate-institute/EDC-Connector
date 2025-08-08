@@ -14,9 +14,9 @@ _some_ of which are listed below:
 * `connector-core`: added logging of outgoing HTTP requests if their path matches
   a custom regular expression (config key `edc.http.client.logging.filter.pattern`).
 * `connector-core`: added `user-agent` HTTP header for outgoing requests
-  (based on the existing `edc.participant.id` config key)
+  (config key `edc.http.client.useragent`).
 * `connector-core`: added auto-generated `request-id` header for outgoing HTTP
-  requests
+  requests.
 
 The list above is likely out-of-date. For a detailed view of *all* changes, see
 [here](https://github.com/gate-institute/EDC-Connector/compare/v0.12.0...gate-0.12.0?expand=1).

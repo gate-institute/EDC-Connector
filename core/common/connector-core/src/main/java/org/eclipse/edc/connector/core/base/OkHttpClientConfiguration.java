@@ -38,6 +38,8 @@ public class OkHttpClientConfiguration {
     private int receiveBufferSize;
     @Setting(description = "OkHttpClient: regex pattern to match against request paths when logging", defaultValue = ".*", key = "edc.http.client.logging.filter.pattern")
     private String loggingFilterPattern;
+    @Setting(description = "OkHttpClient: user-agent header value", defaultValue = "", key = "edc.http.client.useragent")
+    private String userAgent;
 
     public OkHttpClientConfiguration() {
     }
@@ -64,6 +66,10 @@ public class OkHttpClientConfiguration {
 
     public String getLoggingFilterPattern() {
         return loggingFilterPattern;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
     }
 
     public Builder toBuilder() {

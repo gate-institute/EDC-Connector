@@ -46,7 +46,7 @@ public class OkHttpClientFactory {
      * @return the OkHttpClient
      */
     @NotNull
-    public static OkHttpClient create(OkHttpClientConfiguration configuration, EventListener okHttpEventListener, Monitor monitor, String participantId) {
+    public static OkHttpClient create(OkHttpClientConfiguration configuration, EventListener okHttpEventListener, Monitor monitor) {
         var builder = new OkHttpClient.Builder()
                 .connectTimeout(configuration.getConnectTimeout(), SECONDS)
                 .readTimeout(configuration.getReadTimeout(), SECONDS);
@@ -57,8 +57,11 @@ public class OkHttpClientFactory {
 
         ofNullable(okHttpEventListener).ifPresent(builder::eventListener);
 
-        monitor.info("Adding UserAgentInterceptor HTTP interceptor with value: " + participantId);
-        builder.addInterceptor(new UserAgentInterceptor(participantId));
+        String ua = configuration.getUserAgent();
+        if (!ua.isEmpty()) {
+            monitor.info("Adding UserAgentInterceptor HTTP interceptor with value: " + ua);
+            builder.addInterceptor(new UserAgentInterceptor(ua));
+        }
 
         monitor.info("Adding CloseConnection HTTP interceptor");
         builder.addInterceptor(new CloseConnection());
