@@ -38,7 +38,7 @@ class JettyServiceTest {
 
     private final Monitor monitor = mock();
     private final PortMappingRegistry portMappingRegistry = mock();
-    private final JettyConfiguration configuration = new JettyConfiguration(null, null);
+    private final JettyConfiguration configuration = new JettyConfiguration(null, null, null);
     private final JettyService jettyService = new JettyService(configuration, monitor, portMappingRegistry);
 
     @AfterEach
