@@ -270,7 +270,7 @@ public class JerseyRestServiceTest {
     }
 
     private void startJetty(PortMapping... mapping) {
-        var config = new JettyConfiguration(null, null);
+        var config = new JettyConfiguration(null, null, null);
         var portMappings = new PortMappingRegistryImpl();
         Arrays.stream(mapping).forEach(portMappings::register);
         jettyService = new JettyService(config, monitor, portMappings);

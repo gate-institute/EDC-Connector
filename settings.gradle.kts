@@ -336,6 +336,7 @@ include(":spi:crawler-spi")
 include(":spi:federated-catalog-spi")
 
 
+if (!file("gradle/gate.gradle.kts").exists()) { // GATE: disable system tests
 // modules for system tests ------------------------------------------------------------------------
 include(":system-tests:bom-tests")
 include(":system-tests:nats-events-tests")
@@ -364,6 +365,7 @@ include(":system-tests:e2e-federatedcatalog-tests:component-tests")
 include(":system-tests:e2e-federatedcatalog-tests:end2end-test:catalog-runtime")
 include(":system-tests:e2e-federatedcatalog-tests:end2end-test:connector-runtime")
 include(":system-tests:e2e-federatedcatalog-tests:end2end-test:e2e-junit-runner")
+}
 
 // BOM modules ----------------------------------------------------------------
 include(":dist:bom:controlplane-base-bom")
