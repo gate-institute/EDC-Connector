@@ -22,6 +22,8 @@ public record JettyConfiguration(
         @Setting(key = "edc.web.https.keystore.password", description = "Keystore password", defaultValue = "password")
         String keystorePassword,
         @Setting(key = "edc.web.https.keymanager.password", description = "Keymanager password", defaultValue = "password")
-        String keymanagerPassword
+        String keymanagerPassword,
+        @Setting(key = "web.http.logging.filter.pattern", description = "Regex pattern to match against request paths when logging", defaultValue = ".*")
+        String loggingFilterPattern
 ) {
 }

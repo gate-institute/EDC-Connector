@@ -87,7 +87,12 @@ public class ConsoleMonitor implements Monitor {
         var colorCode = useColor ? getColorCode(level) : "";
         var resetCode = useColor ? ConsoleColor.RESET : "";
 
-        System.out.println(colorCode + prefix + level + " " + time + " " + sanitizeMessage(supplier) + resetCode);
+        Thread t = Thread.currentThread();
+        var threadId = t.getId();
+        var threadName = t.getName();
+
+        System.out.println(colorCode + prefix + level + " " + time + " <" + threadId + "/" + threadName + "> " + sanitizeMessage(supplier) + resetCode);
+
         if (errors != null) {
             for (var error : errors) {
                 if (error != null) {

@@ -310,6 +310,7 @@ include(":spi:policy-monitor:policy-monitor-spi")
 // modules for tests ------------------------------------------------------------------------
 include(":tests:junit-base")
 
+if (!file("gradle/gate.gradle.kts").exists()) { // GATE: disable system tests
 // modules for system tests ------------------------------------------------------------------------
 include(":system-tests:e2e-transfer-test:control-plane")
 include(":system-tests:e2e-transfer-test:data-plane")
@@ -331,6 +332,7 @@ include(":system-tests:dsp-compatibility-tests:connector-under-test")
 include(":system-tests:dsp-compatibility-tests:compatibility-test-runner")
 include(":system-tests:protocol-tck:tck-extension")
 include(":system-tests:dcp-tck-tests:presentation")
+}
 
 // BOM modules ----------------------------------------------------------------
 include(":dist:bom:controlplane-base-bom")

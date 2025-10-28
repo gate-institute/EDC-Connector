@@ -1,0 +1,22 @@
+// Hack to prevent this error during publishToMavenLocal:
+// > Cannot perform signing task ':tests:junit-base:signMavenPublication' because it has no configured signatory
+
+allprojects { p ->
+    // 1) Disable every signing task by name (no classes)
+    tasks.configureEach { t ->
+        if (t.name == 'sign' || t.name.startsWith('sign') || t.name.contains('Sign')) {
+            t.enabled = false
+        }
+    }
+
+    // 2) Strip .asc artifacts from all publications just before publish tasks run
+    tasks.matching { it.name.startsWith('publish') }.configureEach { task ->
+        task.doFirst {
+            def pubExt = project.extensions.findByName("publishing")
+            pubExt?.publications?.all { pub ->
+                def arts = (pub.hasProperty('artifacts') ? pub.artifacts : null)
+                arts?.removeIf { it?.file?.name?.endsWith('.asc') }
+            }
+        }
+    }
+}
