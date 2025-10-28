@@ -47,7 +47,7 @@ public abstract class RestControllerTestBase {
 
     @BeforeEach
     final void startJetty() {
-        var config = new JettyConfiguration(null, null);
+        var config = new JettyConfiguration(null, null, null);
         var portMappings = new PortMappingRegistryImpl();
         portMappings.register(new PortMapping("test", port, "/"));
         jetty = new JettyService(config, monitor, portMappings);
