@@ -76,6 +76,9 @@ public class TrustedIssuerConfigurationExtension implements ServiceExtension {
         var properties = typeManager.readValue(propertiesConfig, new TypeReference<Map<String, Object>>() {
         });
 
-        supportedTypes.forEach(type -> trustedIssuerRegistry.register(new Issuer(id, properties), type));
+        supportedTypes.forEach(type -> {
+            monitor.warning("Registering credential type '" + type + "' for trusted issuer: " + id);
+            trustedIssuerRegistry.register(new Issuer(id, properties), type);
+        });
     }
 }
