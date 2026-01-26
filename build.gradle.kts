@@ -18,6 +18,8 @@ plugins {
     alias(libs.plugins.edc.build)
 }
 
+apply(from = "gradle/gate.gradle.kts")
+
 val edcScmUrl: String by project
 val edcScmConnection: String by project
 
