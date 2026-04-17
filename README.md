@@ -3,9 +3,9 @@
 This is a fork of the [EDC Connector](https://github.com/eclipse-edc/Connector)
 repo and contains gate-specific changes for testing and deployment purposes.
 
-The `gate/0.14.1` branch is the main branch used for GATE deployments of the
-EDC connector. It contains some changes to EDC's `v0.14.1` tag
-(ref. [8f27b9c](https://github.com/eclipse-edc/Connector/tree/2b35debf132b127b282af0b4637b4bdbeeaf8202)),
+The `gate/0.17.0` branch is the main branch used for GATE deployments of the
+EDC connector. It contains some changes to EDC's `v0.17.0` tag
+(ref. [8f27b9c](https://github.com/eclipse-edc/Connector/tree/737bfc92527c89ca291de538b9e379cde86fcd03)),
 _some_ of which are listed below:
 
 * changed default gradle build to ignore some tasks by default (openapi, javadoc, etc.).
@@ -19,7 +19,7 @@ _some_ of which are listed below:
   requests.
 
 The list above is likely out-of-date. For a detailed view of *all* changes, see
-[here](https://github.com/gate-institute/EDC-Connector/compare/v0.14.1...gate/0.14.1?expand=1).
+[here](https://github.com/eclipse-edc/Connector/compare/v0.17.0...gate-institute:EDC-Connector:gate/0.17.0?expand=1).
 
 ## Quick start
 
@@ -32,13 +32,13 @@ make build
 
 This is not a _real_ quick start, as the build artifacts cannot be used to
 start anything -- they are just libs which can be used to build a runtime,
-(runtimes are entirely separate projects, see 
-[runtime-sample](https://github.com/gate-institute/gate-dsv2/tree/main/source/runtime-sample)
+(runtimes are entirely separate projects, see
+[runtime-envgen](https://github.com/gate-institute/gate-dsv2/tree/main/source/runtime-envgen)
 for example).
 
 ## Caveats
 
-This project builds java artifacts versioned as `0.14.1` (and not `0.14.1-gate`).
+This project builds java artifacts versioned as `0.17.0` (and not `0.17.0-gate`).
 This works around the need to compile *all* dependencies with that
 version as well (such as the EDC
 [RuntimeMetamodel](https://github.com/eclipse-edc/Runtime-Metamodel/blob/main/build.gradle.kts),
