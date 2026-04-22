@@ -11,13 +11,14 @@ help:
 ### build
 ###############################################################################
 
+# XXX: if this fails with error "too many open files" on mac,
+#      check if `ulimit -n` is too low and increase accordingly
 build:
 	./gradlew publishToMavenLocal \
 		--no-daemon \
 		--warning-mode=none \
 		--parallel \
-		--max-workers 3 \
-		-x openapi \
+		--max-workers 4 \
 		-I disable-signing.gradle \
 		-Dorg.gradle.jvmargs="-Xmx2g"
 
