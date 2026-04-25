@@ -103,7 +103,7 @@ public class JerseyRestService implements WebService {
         resourceConfig.registerClasses(controllers.stream().map(Object::getClass).collect(toSet()));
         resourceConfig.registerInstances(new Binder(controllers));
         resourceConfig.registerInstances(new ObjectMapperProvider(typeManager, DEFAULT_TYPE_CONTEXT));
-        resourceConfig.registerInstances(new EdcApiExceptionMapper());
+        resourceConfig.registerInstances(new EdcApiExceptionMapper(monitor));
         resourceConfig.registerInstances(new UnexpectedExceptionMapper(monitor));
         resourceConfig.registerInstances(new DynamicResourceFeature(dynamicResourcesForContext));
 
