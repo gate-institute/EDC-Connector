@@ -38,10 +38,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.eclipse.edc.validator.spi.Violation.violation;
+import static org.mockito.Mockito.mock;
 
 class EdcApiExceptionMapperTest {
 
-    private final EdcApiExceptionMapper mapper = new EdcApiExceptionMapper();
+    private final EdcApiExceptionMapper mapper = new EdcApiExceptionMapper(mock());
 
     @ParameterizedTest
     @ArgumentsSource(EdcApiExceptions.class)

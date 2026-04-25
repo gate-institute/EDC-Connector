@@ -17,6 +17,7 @@ package org.eclipse.edc.web.jersey.mapper;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
+import org.eclipse.edc.spi.monitor.Monitor;
 import org.eclipse.edc.web.spi.ApiErrorDetail;
 import org.eclipse.edc.web.spi.exception.AuthenticationFailedException;
 import org.eclipse.edc.web.spi.exception.BadGatewayException;
@@ -27,7 +28,10 @@ import org.eclipse.edc.web.spi.exception.ObjectConflictException;
 import org.eclipse.edc.web.spi.exception.ObjectNotFoundException;
 import org.eclipse.edc.web.spi.exception.ValidationFailureException;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static jakarta.ws.rs.core.Response.Status.BAD_GATEWAY;
@@ -42,9 +46,11 @@ import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
  * Exception mapper that catches all the `EdcApiException` exceptions, map them to a 4xx response code with a detailed response body
  */
 public class EdcApiExceptionMapper implements ExceptionMapper<EdcApiException> {
+    private final Monitor monitor;
     private final Map<Class<? extends EdcApiException>, Response.Status> exceptionMap;
 
-    public EdcApiExceptionMapper() {
+    public EdcApiExceptionMapper(Monitor monitor) {
+        this.monitor = monitor;
         exceptionMap = Map.of(
                 AuthenticationFailedException.class, UNAUTHORIZED,
                 NotAuthorizedException.class, FORBIDDEN,
@@ -78,8 +84,14 @@ public class EdcApiExceptionMapper implements ExceptionMapper<EdcApiException> {
                     );
         }
 
+        List<ApiErrorDetail> list = errorDetails.toList();
+        String logErrors = IntStream.range(0, list.size())
+                .mapToObj(i -> String.format("  [%d] %s", i, list.get(i).getMessage()))
+                .collect(Collectors.joining("\n", "API Errors:\n", ""));
+        monitor.warning(logErrors);
+
         return Response.status(status)
-                .entity(errorDetails.toList())
+                .entity(list)
                 .build();
     }
 }
